@@ -7,8 +7,8 @@ const {
 } = require('./lib/abema');
 
 const scheduleOptions = {
-  channelId: 'abema-news',
-  recordDuration: 1,
+  channelId: 'new-anime',
+  recordDuration: 120,
 };
 const d = new Date();
 scheduleOptions.recordStart = d;
