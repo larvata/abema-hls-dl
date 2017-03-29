@@ -1,29 +1,82 @@
+const program = require('commander');
+const pkg = require('./package');
 const {createUserDevice} = require('./lib/utils');
 const {
   getUserDetailsPromise,
   registUserDevicePromise,
   getMediaTokenPromise,
   scheduleDumpPromise,
+  getMediaDetailsPromise,
 } = require('./lib/abema');
 
-const scheduleOptions = {
-  channelId: 'special-plus',
-  recordDuration: 180,
-  proxy: 'socks://127.0.0.1:8484',
-};
-const d = new Date();
-scheduleOptions.recordStart = d;
+program
+  .version(pkg.version)
+  .option('-l, --list', 'list all of the available channels')
+  .option('-c, --channel <channelId>', 'channel id for recording, default: abema-news')
+  .option('-d, --duration <duration>', 'recording duration(minute) default: 30')
+  .option('-p, --proxy <proxy>', 'proxy setting, default: null')
+  .parse(process.argv);
 
-const deviceInfo = createUserDevice();
-const {deviceId, applicationKeySecret} = deviceInfo;
-registUserDevicePromise(deviceId, applicationKeySecret)
-  .then(getUserDetailsPromise)
-  .then(getMediaTokenPromise)
-  .then(scheduleDumpPromise.bind(null, scheduleOptions))
-  .then((result) => {
-    console.log('final result:', result);
-    fs.writeFileSync('last_playlist.json', JSON.stringify(result, null, 2));
-  })
-  .catch((err) =>{
-    console.log(err);
-  });
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+}
+else if (program.list) {
+  const deviceInfo = createUserDevice();
+  const {deviceId, applicationKeySecret} = deviceInfo;
+  registUserDevicePromise(deviceId, applicationKeySecret)
+    .then(getUserDetailsPromise)
+    .then(getMediaDetailsPromise)
+    .then((ret) => {
+      const padding = 8;
+      const { channels } = ret;
+      const maxLength = channels.reduce((a, b)=>{
+        if (a === 0) {
+          return b.id.length;
+        }
+        if (a < b.id.length) {
+          return b.id.length;
+        }
+        return a;
+      }, 0);
+
+      console.log(`Id${' '.repeat(maxLength-2+padding)}Name`);
+      ret.channels.forEach((c) => {
+        console.log(`${c.id}${' '.repeat(maxLength-c.id.length+padding)}${c.name}`);
+      });
+    });
+}
+else {
+  const scheduleOptions = {
+    channelId: 'abema-news',
+    recordDuration: 30,
+    // proxy: 'socks://127.0.0.1:8484',
+  };
+  // todo: add an option for schedule recording
+  const d = new Date();
+  scheduleOptions.recordStart = d;
+
+  if (program.channel) {
+    scheduleOptions.channelId = program.channel;
+  }
+  if (program.duration) {
+    scheduleOptions.recordDuration = program.duration;
+  }
+  if (program.proxy) {
+    scheduleOptions.proxy = program.proxy;
+  }
+
+  const deviceInfo = createUserDevice();
+  const {deviceId, applicationKeySecret} = deviceInfo;
+  registUserDevicePromise(deviceId, applicationKeySecret)
+    .then(getUserDetailsPromise)
+    .then(getMediaDetailsPromise)
+    .then(getMediaTokenPromise)
+    .then(scheduleDumpPromise.bind(null, scheduleOptions))
+    .then((result) => {
+      console.log('all done, the log file has been saved as last_playlist.json');
+      require('fs').writeFileSync('last_playlist.json', JSON.stringify(result, null, 2));
+    })
+    .catch((err) =>{
+      console.log(err);
+    });
+}
