@@ -7,8 +7,9 @@ const {
 } = require('./lib/abema');
 
 const scheduleOptions = {
-  channelId: 'new-anime',
-  recordDuration: 120,
+  channelId: 'special-plus',
+  recordDuration: 180,
+  proxy: 'socks://127.0.0.1:8484',
 };
 const d = new Date();
 scheduleOptions.recordStart = d;
@@ -21,6 +22,7 @@ registUserDevicePromise(deviceId, applicationKeySecret)
   .then(scheduleDumpPromise.bind(null, scheduleOptions))
   .then((result) => {
     console.log('final result:', result);
+    fs.writeFileSync('last_playlist.json', JSON.stringify(result, null, 2));
   })
   .catch((err) =>{
     console.log(err);
