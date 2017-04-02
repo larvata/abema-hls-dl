@@ -2,7 +2,7 @@
 
 ----
 
-abemaTV的下载工具, node 6.4+
+abemaTV的下载工具, 使用了Promise, 需要node 6.4+
 
 ```
 > node . --help
@@ -17,6 +17,7 @@ abemaTV的下载工具, node 6.4+
     -c, --channel <channelId>  channel id for recording, default: abema-news
     -d, --duration <duration>  recording duration(minute) default: 30
     -p, --proxy <proxy>        proxy setting, default: null
+    -s, --savecache            save origin ts file for backup
 
 ```
 
@@ -28,6 +29,6 @@ abemaTV的下载工具, node 6.4+
 
 
 # 下载2分钟麻将 国内下载需自备代理
->node . -c mahjong -d 2 -p socks://127.0.0.1:8484
+> node . -c mahjong -d 2 -p socks://127.0.0.1:8484
 
 ```
