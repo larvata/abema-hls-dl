@@ -15,6 +15,7 @@ program
   .option('-c, --channel <channelId>', 'channel id for recording, default: abema-news')
   .option('-d, --duration <duration>', 'recording duration(minute) default: 30')
   .option('-p, --proxy <proxy>', 'proxy setting, default: null')
+  .option('-s, --savecache', 'save origin ts file for backup')
   .parse(process.argv);
 
 if (!process.argv.slice(2).length) {
@@ -27,6 +28,7 @@ else if (program.list) {
     .then(getUserDetailsPromise)
     .then(getMediaDetailsPromise)
     .then((ret) => {
+      require('fs').writeFileSync('program-list.json', JSON.stringify(ret, null, 2));
       const padding = 8;
       const { channels } = ret;
       const maxLength = channels.reduce((a, b)=>{
@@ -64,6 +66,9 @@ else {
   if (program.proxy) {
     scheduleOptions.proxy = program.proxy;
   }
+  if (program.savecache) {
+    scheduleOptions.saveCacheFile = program.savecache;
+  }
 
   const deviceInfo = createUserDevice();
   const {deviceId, applicationKeySecret} = deviceInfo;
@@ -74,7 +79,6 @@ else {
     .then(scheduleDumpPromise.bind(null, scheduleOptions))
     .then((result) => {
       console.log('all done, the log file has been saved as last_playlist.json');
-      require('fs').writeFileSync('last_playlist.json', JSON.stringify(result, null, 2));
     })
     .catch((err) =>{
       console.log(err);
