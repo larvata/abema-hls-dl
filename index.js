@@ -78,7 +78,7 @@ else {
     .then(getMediaTokenPromise)
     .then(scheduleDumpPromise.bind(null, scheduleOptions))
     .then((result) => {
-      console.log('all done, the log file has been saved as last_playlist.json');
+      // console.log('all done, the log file has been saved as last_playlist.json');
     })
     .catch((err) =>{
       console.log(err);
