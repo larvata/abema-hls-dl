@@ -1,7 +1,5 @@
 # abema-hls-dl
 
-----
-
 abemaTV的下载工具, 使用了Promise, 需要nodejs 6.4+
 
 ```
@@ -37,7 +35,7 @@ abemaTV的下载工具, 使用了Promise, 需要nodejs 6.4+
   
 ### 已知问题
 
-+ 无法录制有版权保护并且无法在网页版播放的番组
++ 目前没有实现Dash模块 无法录制使用了版权保护的视频
 + 遇到录档无法剪辑的情况 需要对其remux 
 
     `ffmpeg -i in.ts -vcodec copy -acodec copy -bf:v 0 out.ts`
