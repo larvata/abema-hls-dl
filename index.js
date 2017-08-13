@@ -7,6 +7,7 @@ const {
   getMediaTokenPromise,
   scheduleDumpPromise,
   getMediaDetailsPromise,
+  setProxy,
 } = require('./lib/abema');
 
 program
@@ -24,6 +25,12 @@ if (!process.argv.slice(2).length) {
 else if (program.list) {
   const deviceInfo = createUserDevice();
   const {deviceId, applicationKeySecret} = deviceInfo;
+
+  // set proxy
+  if (program.proxy) {
+    setProxy(program.proxy);
+  }
+
   registUserDevicePromise(deviceId, applicationKeySecret)
     .then(getUserDetailsPromise)
     .then(getMediaDetailsPromise)
@@ -63,11 +70,13 @@ else {
   if (program.duration) {
     scheduleOptions.recordDuration = program.duration;
   }
-  if (program.proxy) {
-    scheduleOptions.proxy = program.proxy;
-  }
   if (program.savecache) {
     scheduleOptions.saveCacheFile = program.savecache;
+  }
+
+  // set proxy
+  if (program.proxy) {
+    setProxy(program.proxy);
   }
 
   const deviceInfo = createUserDevice();
