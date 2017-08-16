@@ -1,6 +1,12 @@
 # abema-hls-dl
 
-abemaTV的下载工具, 使用了Promise, 需要nodejs 6.4+
+abemaTV的下载工具, 需要 nodejs > 6.4
+
+```
+git clone https://github.com/larvata/abema-hls-dl.git
+cd abema-hls-dl
+npm install
+```
 
 ```
 > node . --help
@@ -24,7 +30,7 @@ abemaTV的下载工具, 使用了Promise, 需要nodejs 6.4+
 
 ```
 # 获取频道Id
-> node . --list                                         
+> node . --list
 
 
 # 下载2分钟麻将 国内下载需自备代理 任意日本IP即可
@@ -35,7 +41,7 @@ abemaTV的下载工具, 使用了Promise, 需要nodejs 6.4+
   
 ### 已知问题
 
-+ 目前没有实现Dash模块 无法录制使用了版权保护的视频
++ 目前没有实现Dash模块 部分频道无法录制
 + 遇到录档无法剪辑的情况 可能需要对其remux
 
     `ffmpeg -i in.ts -c copy output.mp4`
