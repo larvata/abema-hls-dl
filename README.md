@@ -2,11 +2,16 @@
 
 abemaTV的下载工具, 需要 nodejs > 6.4
 
+### 安装
+
 ```
+# 下载代码并安装依赖库
 git clone https://github.com/larvata/abema-hls-dl.git
 cd abema-hls-dl
 npm install
 ```
+
+### 参数列表
 
 ```
 > node . --help
@@ -22,6 +27,7 @@ npm install
     -d, --duration <duration>  recording duration(minute) default: 30
     -p, --proxy <proxy>        proxy setting, default: null
     -s, --savecache            save origin ts file for backup
+    -r, --resolution <number>  video resolution, one of 360/480/720/1080, default: 1080
 
 ```
 
@@ -33,12 +39,11 @@ npm install
 > node . --list
 
 
-# 下载2分钟麻将 国内下载需自备代理 任意日本IP即可
-> node . -c mahjong -d 2 -p socks://127.0.0.1:8484
+# 下载2分钟480p的分辨率的麻将 国内下载需自备代理 任意日本IP即可
+> node . -c mahjong -d 2 -r 480 -p socks://127.0.0.1:8484
 
 ```
 
-  
 ### 已知问题
 
 + 目前没有实现Dash模块 部分频道无法录制

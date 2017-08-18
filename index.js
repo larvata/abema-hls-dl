@@ -17,6 +17,7 @@ program
   .option('-d, --duration <duration>', 'recording duration(minute) default: 30')
   .option('-p, --proxy <proxy>', 'proxy setting, default: null')
   .option('-s, --savecache', 'save origin ts file for backup')
+  .option('-r, --resolution <number>', 'video resolution, one of [360, 480, 720, 1080], default: 1080')
   .parse(process.argv);
 
 if (!process.argv.slice(2).length) {
@@ -72,6 +73,9 @@ else {
   }
   if (program.savecache) {
     scheduleOptions.saveCacheFile = program.savecache;
+  }
+  if (program.resolution) {
+    scheduleOptions.resolution = program.resolution;
   }
 
   // set proxy
