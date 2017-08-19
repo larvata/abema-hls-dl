@@ -18,9 +18,11 @@ program
   .option('-p, --proxy <proxy>', 'proxy setting, default: null')
   .option('-s, --savecache', 'save origin ts file for backup')
   .option('-r, --resolution <number>', 'video resolution, one of [360, 480, 720, 1080], default: 1080')
+  .option('-o, --output <filename>', 'output file name')
   .parse(process.argv);
 
 if (!process.argv.slice(2).length) {
+  console.log('Usage: ', 'node . --channel mahjong --duration 10 -r 1080 --output mahjong-10-minutes-1090p.ts');
   program.outputHelp();
 }
 else if (program.list) {
@@ -76,6 +78,9 @@ else {
   }
   if (program.resolution) {
     scheduleOptions.resolution = program.resolution;
+  }
+  if (program.output) {
+    scheduleOptions.outputFileName = program.output;
   }
 
   // set proxy
