@@ -28,6 +28,7 @@ npm install
     -p, --proxy <proxy>        proxy setting, default: null
     -s, --savecache            save origin ts file for backup
     -r, --resolution <number>  video resolution, one of 360/480/720/1080, default: 1080
+    -o, --output <filename>    output file name
 
 ```
 
