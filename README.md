@@ -1,3 +1,7 @@
+# PLEASE STOP USE THIS SCRIPT FOR NOW
+# IT WILL CAUSE YOUR IP ADDRESS BEING BANNED
+
+
 # abema-hls-dl
 
 abemaTV的下载工具, 需要 nodejs > 6.4
